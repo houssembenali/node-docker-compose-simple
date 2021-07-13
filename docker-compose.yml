@@ -1,0 +1,25 @@
+version: "3"
+services: 
+# Setup node container itthWff#
+server: 
+    build: ./server 
+    expose: - VAPP_SERVER_PORTI 
+    environment: 
+        API_HOST: ${API_HOST} 
+        Ann_SERVER_PORT: ${APP_SERVER_PORT} 
+        ports: - VAPP_SERVER_PORTI:${APP_SERVER_PORT} 
+        volumes: 
+            - ./server/src:/srv/app/fr-shohin-admin-server/src 
+        command: npm run dev 
+## Setup client container 
+client: 
+    build: ./client 
+    environment: - REACT_APP_PORT=VREACT_APP_PORTI 
+    expose: - ${REACT_APP_PORT} 
+    ports: - WEACT_APP_PORTI:WEACT_APP_PORTI 
+    volumes: 
+        - ./client/src:/srv/app/fr-shohin-admin-client/src 
+        - ./client/public:/srv/app/fr-shohin-admin-client/public 
+    links: 
+        - server 
+    command: npm run start 
